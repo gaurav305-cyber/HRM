@@ -6,9 +6,9 @@ import com.test.model.Payroll;
 
 public interface PayrollService {
     List<Payroll> getAllPayrolls();
-    Payroll getPayrollById(Long id);
+    Payroll getPayrollById(String id);
     Payroll createPayroll(Payroll payroll);
-    Payroll updatePayroll(Long id, Payroll payroll);
-    void deletePayroll(Long id);
-    Payroll getPayrollByEmployeeId(Long id);
+    Payroll updatePayroll(String id, Payroll payroll);
+    void deletePayroll(String id);
+    Payroll getPayrollByEmployeeId(String id);
 }

@@ -28,7 +28,7 @@ public class PayrollController {
     }
 
     @GetMapping("/{id}")
-    public Payroll getPayrollById(@PathVariable Long id) {
+    public Payroll getPayrollById(@PathVariable String id) {
         return payrollService.getPayrollById(id);
     }
 
@@ -38,17 +38,17 @@ public class PayrollController {
     }
 
     @PutMapping("/{id}")
-    public Payroll updatePayroll(@PathVariable Long id, @RequestBody Payroll payroll) {
+    public Payroll updatePayroll(@PathVariable String id, @RequestBody Payroll payroll) {
         return payrollService.updatePayroll(id, payroll);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePayroll(@PathVariable Long id) {
+    public void deletePayroll(@PathVariable String id) {
         payrollService.deletePayroll(id);
     }
     
     @GetMapping("/get/{id}")
-    public Payroll getPayrollByEmployeeId(@PathVariable Long id) {
+    public Payroll getPayrollByEmployeeId(@PathVariable String id) {
         return payrollService.getPayrollByEmployeeId(id);
     }
 

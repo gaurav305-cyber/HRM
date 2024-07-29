@@ -6,9 +6,9 @@ import com.test.model.Attendence;
 
 public interface AttencenceService {
 	    List<Attendence> getAllAttendances();
-	    Attendence getAttendanceById(Long id);
+	    Attendence getAttendanceById(String id);
 	    Attendence createAttendance(Attendence attendance);
-	    Attendence updateAttendance(Long id, Attendence attendance);
-	    void deleteAttendance(Long id);
-	    Attendence getAttendanceByEmployeeId(Long id);
+	    Attendence updateAttendance(String id, Attendence attendance);
+	    void deleteAttendance(String id);
+	    Attendence getAttendanceByEmployeeId(String id);
 }

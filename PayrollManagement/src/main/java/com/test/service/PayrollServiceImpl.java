@@ -1,53 +1,58 @@
 package com.test.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.test.Repository.PayrollRepository;
 import com.test.model.Payroll;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class PayrollServiceImpl implements PayrollService {
 
     private List<Payroll> payrollList = new ArrayList<>();
-    private AtomicLong idCounter = new AtomicLong();
+    
+    @Autowired
+    private PayrollRepository payrollRepo;
     @Override
     public List<Payroll> getAllPayrolls() {
-        return payrollList;
+        return payrollRepo.findAll();
     }
 
     @Override
-    public Payroll getPayrollById(Long id) {
-        return payrollList.stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
+    public Payroll getPayrollById(String id) {
+        Optional<Payroll> payroll = payrollRepo.findById(id);
+        return payroll.orElse(null);
     }
 
     @Override
     public Payroll createPayroll(Payroll payroll) {
-    	payroll.setId(idCounter.incrementAndGet());
-        payrollList.add(payroll);
-        return payroll;
+        return payrollRepo.save(payroll);
     }
 
     @Override
-    public Payroll updatePayroll(Long id, Payroll payroll) {
-        Payroll existingPayroll = payrollList.stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
-        if (existingPayroll != null) {
+    public Payroll updatePayroll(String id, Payroll payroll) {
+        Optional<Payroll> existingPayrollOptional = payrollRepo.findById(id);
+        if (existingPayrollOptional.isPresent()) {
+            Payroll existingPayroll = existingPayrollOptional.get();
             existingPayroll.setEmployeeId(payroll.getEmployeeId());
             existingPayroll.setAmount(payroll.getAmount());
+            return payrollRepo.save(existingPayroll);
         }
-        return existingPayroll;
+        return null;
     }
 
     @Override
-    public void deletePayroll(Long id) {
-        payrollList.removeIf(p -> p.getId().equals(id));
-    }
-    
-    @Override
-    public Payroll getPayrollByEmployeeId(Long id) {
-        return payrollList.stream().filter(p -> p.getEmployeeId().equals(id)).findFirst().orElse(null);
+    public void deletePayroll(String id) {
+        payrollRepo.deleteById(id);
     }
 
+    @Override
+    public Payroll getPayrollByEmployeeId(String employeeId) {
+        return payrollRepo.findByEmployeeId(employeeId);
+    }
 }

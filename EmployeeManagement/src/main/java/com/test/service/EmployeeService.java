@@ -8,9 +8,9 @@ import com.test.model.External.Department;
 
 public interface EmployeeService {
     List<Employee> getAllEmployees();
-    Employee getEmployeeById(Long id);
+    Employee getEmployeeById(String id);
     Employee createEmployee(Employee employee);
-    Employee updateEmployee(Long id, Employee employee);
-    void deleteEmployee(Long id);
+    Employee updateEmployee(String id, Employee employee);
+    void deleteEmployee(String id);
     List<EmployeeDTO> getAllEmployeeData(); 
 }

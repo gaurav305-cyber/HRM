@@ -1,20 +1,25 @@
 package com.test.model;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import jakarta.persistence.Id;
+
+@Document
 public class Department {
 
-	private Long id;
+	@Id
+	private String id;
     private String name;
     
-    public Department(Long id, String name) {
+    public Department(String id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
     
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {

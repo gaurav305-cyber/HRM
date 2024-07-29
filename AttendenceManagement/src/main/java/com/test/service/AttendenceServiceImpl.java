@@ -3,53 +3,59 @@ package com.test.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.test.model.Attendence;
+import com.test.repository.AttendenceRepository;
 
 @Service
 public class AttendenceServiceImpl implements AttencenceService{
 	 private List<Attendence> attendanceList = new ArrayList<>();
+	 
+     @Autowired
+	 private AttendenceRepository attendenceRepo;
 	 LocalDateTime now = LocalDateTime.now();  
-	   private AtomicLong idCounter = new AtomicLong();
 	    @Override
 	    public List<Attendence> getAllAttendances() {
-	        return attendanceList;
+	        return attendenceRepo.findAll();
 	    }
 
 	    @Override
-	    public Attendence getAttendanceById(Long id) {
-	        return attendanceList.stream().filter(a -> a.getId().equals(id)).findFirst().orElse(null);
+	    public Attendence getAttendanceById(String id) {
+	    	Optional<Attendence> attendence = attendenceRepo.findById(id);
+	        return attendence.orElse(null);
 	    }
 
 	    @Override
 	    public Attendence createAttendance(Attendence attendance) {
-	    	attendance.setId(idCounter.incrementAndGet());
-	    	attendance.setDate(now);
-	        attendanceList.add(attendance);
-	        return attendance;
+	    	attendance.setDate(LocalDateTime.now());
+	        return attendenceRepo.save(attendance);
 	    }
 
 	    @Override
-	    public Attendence updateAttendance(Long id, Attendence attendance) {
-	    	Attendence existingAttendance = attendanceList.stream().filter(a -> a.getId().equals(id)).findFirst().orElse(null);
-	        if (existingAttendance != null) {
-	            existingAttendance.setDate(attendance.getDate());
-	            existingAttendance.setStatus(attendance.getStatus());
+	    public Attendence updateAttendance(String id, Attendence attendence) {
+	    	Optional<Attendence> existingAttendenceOptional = attendenceRepo.findById(id);
+	        if (existingAttendenceOptional.isPresent()) {
+	            Attendence existingAttendence = existingAttendenceOptional.get();
+	            existingAttendence.setDate(attendence.getDate());
+	            existingAttendence.setStatus(attendence.getStatus());
+	            return attendenceRepo.save(existingAttendence);
 	        }
-	        return existingAttendance;
-	    }
+	        return null;
+	        }
 
 	    @Override
-	    public void deleteAttendance(Long id) {
-	        attendanceList.removeIf(a -> a.getId().equals(id));
+	    public void deleteAttendance(String id) {
+	    	attendenceRepo.deleteById(id);
 	    }
 	    
 	    @Override
-	    public Attendence getAttendanceByEmployeeId(Long id) {
-	        return attendanceList.stream().filter(a -> a.getEmployeeId().equals(id)).findFirst().orElse(null);
+	    public Attendence getAttendanceByEmployeeId(String id) {
+	    	return attendenceRepo.findByEmployeeId(id);
 	    }
 
 }

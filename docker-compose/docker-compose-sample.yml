@@ -1,0 +1,83 @@
+services:
+  discovery-server:
+    container_name: discovery-server
+    image: discovery-server:latest
+    ports:
+      - 8761:8761
+
+  hrm-api-gateway:
+    container_name: hrm-api-gateway
+
+    image: hrm-api-gateway:latest
+    ports:
+      - 8080:8080
+    environment:
+      EUREKA_HOST: discovery-server
+    networks:
+      - ms-network
+    depends_on:
+      - discovery-server
+
+  attendence-management:
+    container_name: attendence-management
+    image: attendence-management:latest
+    build:
+      context: ../AttendenceManagement
+      dockerfile: Dockerfile
+    ports:
+      - 8092:8092
+    environment:
+      EUREKA_HOST: discovery-server
+      MONGO_DB_HOST: mongodb
+    networks:
+      - ms-network
+    depends_on:
+     - discovery-server
+  department-management:
+    container_name: department-management
+    image: department-management:latest
+    build:
+      context: ../DepartmentManagement
+      dockerfile: Dockerfile
+    ports:
+      - 8091:8091
+    environment:
+      EUREKA_HOST: discovery-server
+      MONGO_DB_HOST: mongodb
+    networks:
+      - ms-network
+    depends_on:
+      - discovery-server
+  employee-management:
+    container_name: employee-management
+    build:
+      context: ../EmployeeManagement
+      dockerfile: Dockerfile
+    image: employee-management:latest
+    ports:
+      - 8090:8090
+    environment:
+      EUREKA_HOST: discovery-server
+      MONGO_DB_HOST: mongodb
+    networks:
+      - ms-network
+    depends_on:
+      - discovery-server
+  payroll-management:
+    container_name: payroll-management
+    build:
+      context: ../PayrollManagement
+      dockerfile: Dockerfile
+    image: payroll-management:latest
+    ports:
+      - 8089:8089
+    environment:
+      EUREKA_HOST: discovery-server
+      MONGO_DB_HOST: mongodb
+    networks:
+      - ms-network
+    depends_on:
+      - discovery-server
+networks:
+  ms-network:
+    driver: bridge

@@ -6,8 +6,8 @@ import com.test.model.Department;
 
 public interface DepartmentService {
     List<Department> getAllDepartments();
-    Department getDepartmentById(Long id);
+    Department getDepartmentById(String id);
     Department createDepartment(Department department);
-    Department updateDepartment(Long id, Department department);
-    void deleteDepartment(Long id);
+    Department updateDepartment(String id, Department department);
+    void deleteDepartment(String id);
 }

@@ -1,26 +1,32 @@
 package com.test.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import jakarta.persistence.Id;
+
+@Document
 public class Payroll {
 
-	private Long id;
-    private Long employeeId;
+	@Id
+	private String id;
+    private String employeeId;
     private Double amount;
-	public Payroll(Long id, Long employeeId, Double amount) {
+	public Payroll(String id, String employeeId, Double amount) {
 		super();
 		this.id = id;
 		this.employeeId = employeeId;
 		this.amount = amount;
 	}
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	public Long getEmployeeId() {
+	public String getEmployeeId() {
 		return employeeId;
 	}
-	public void setEmployeeId(Long employeeId) {
+	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
 	public Double getAmount() {

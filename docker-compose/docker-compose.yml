@@ -1,0 +1,91 @@
+services:
+  discovery-server:
+    container_name: discovery-server
+    image: discovery-server:latest
+    ports:
+      - 8761:8761
+    networks:
+      - ms-network
+
+  HRM-api-gateway:
+    container_name: HRM-api-gateway
+    build:
+      context: ../HRM-api-gateway
+      dockerfile: Dockerfile
+    image: hrm-api-gateway:latest
+    ports:
+      - 8080:8080
+    environment:
+      EUREKA_HOST: discovery-server
+    networks:
+      - ms-network
+    depends_on:
+      - discovery-server
+
+  AttendenceManagement:
+    container_name: AttendenceManagement
+    image: attendence-management:latest
+    build:
+      context: ../AttendenceManagement
+      dockerfile: Dockerfile
+    ports:
+      - 8092:8092
+    environment:
+      EUREKA_HOST: discovery-server
+      MONGO_DB_USERNAME: root
+      MONGO_DB_PASSWORD: password
+    networks:
+      - ms-network
+    depends_on:
+     - discovery-server
+  DepartmentManagement:
+    container_name: DepartmentManagement
+    image: department-management:latest
+    build:
+      context: ../DepartmentManagement
+      dockerfile: Dockerfile
+    ports:
+      - 8091:8091
+    environment:
+      EUREKA_HOST: discovery-server
+      MONGO_DB_USERNAME: root
+      MONGO_DB_PASSWORD: password
+    networks:
+      - ms-network
+    depends_on:
+      - discovery-server
+  EmployeeManagement:
+    container_name: EmployeeManagement
+    build:
+      context: ../EmployeeManagement
+      dockerfile: Dockerfile
+    image: employee-management:latest
+    ports:
+      - 8090:8090
+    environment:
+      EUREKA_HOST: discovery-server
+      MONGO_DB_USERNAME: root
+      MONGO_DB_PASSWORD: password
+    networks:
+      - ms-network
+    depends_on:
+      - discovery-server
+  PayrollManagement:
+    container_name: PayrollManagement
+    build:
+      context: ../PayrollManagement
+      dockerfile: Dockerfile
+    image: payroll-management:latest
+    ports:
+      - 8089:8089
+    environment:
+      EUREKA_HOST: discovery-server
+      MONGO_DB_USERNAME: root
+      MONGO_DB_PASSWORD: password
+    networks:
+      - ms-network
+    depends_on:
+      - discovery-server
+networks:
+  ms-network:
+    driver: bridge
