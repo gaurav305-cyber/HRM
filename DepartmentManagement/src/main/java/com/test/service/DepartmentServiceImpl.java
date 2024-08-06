@@ -1,6 +1,7 @@
 package com.test.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.test.model.Department;
 import com.test.repository.DepartmentRepository;
+
+import jakarta.ws.rs.POST;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -47,5 +50,15 @@ public class DepartmentServiceImpl implements DepartmentService {
 	    @Override
 	    public void deleteDepartment(String id) {
 	        departmentRepo.deleteById(id);
+	    }
+	    
+	 
+	    @Override
+	    public List<Department> getDepartmentsByIds(String ids) {
+	        // Fetch departments by list of IDs
+	        List<Department> departments = departmentRepo.findAllById(Arrays.asList(ids.split(",")));
+	        
+	        // Return the list of departments
+	        return departments;
 	    }
 }

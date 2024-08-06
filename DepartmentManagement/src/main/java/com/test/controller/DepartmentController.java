@@ -39,5 +39,8 @@ public class DepartmentController {
     public void deleteDepartment(@PathVariable String id) {
         departmentService.deleteDepartment(id);
     }
-
+    @PostMapping("/getAllByID")
+    public List<Department> getAllDepartmentList(@RequestBody String ids) {
+        return departmentService.getDepartmentsByIds(ids);
+    }
 }

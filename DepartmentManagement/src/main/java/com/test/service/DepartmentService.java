@@ -10,4 +10,5 @@ public interface DepartmentService {
     Department createDepartment(Department department);
     Department updateDepartment(String id, Department department);
     void deleteDepartment(String id);
+    List<Department> getDepartmentsByIds(String ids);
 }

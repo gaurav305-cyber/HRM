@@ -50,6 +50,10 @@ public class EmployeeController {
 
 	    @GetMapping("/get-all-employees")
 	    public List<EmployeeDTO> getAllEmployeeData() {
-	        return employeeService.getAllEmployeeData();
+	        return employeeService.getAllEmployeeDepartment();
+	    }
+	    @GetMapping("/get-all-data")
+	    public List<EmployeeDTO> getAllData() {
+	        return employeeService.getAllEmployeeDepartments();
 	    }
 }

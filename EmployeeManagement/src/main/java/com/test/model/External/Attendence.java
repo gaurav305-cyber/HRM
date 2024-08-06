@@ -4,27 +4,27 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Attendence {
-	private Long id;
-    private Long employeeId;
+	private String id;
+    private String employeeId;
     private LocalDateTime date;
     private String status;
-	public Attendence(Long id, Long employeeId, LocalDateTime date, String status) {
+	public Attendence(String id, String employeeId, LocalDateTime date, String status) {
 		super();
 		this.id = id;
 		this.employeeId = employeeId;
 		this.date = date;
 		this.status = status;
 	}
-    public Long getId() {
+    public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	public Long getEmployeeId() {
+	public String getEmployeeId() {
 		return employeeId;
 	}
-	public void setEmployeeId(Long employeeId) {
+	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
 	public LocalDateTime getDate() {
